@@ -299,8 +299,7 @@ app.post('/api/item', async function(req, res, next){
 // get new parent
 app.get('/api/item/:parentId', async function(req, res, next){
 	console.log("/api/item/:parentId runing...");
-	var parents = await Item.find({parentId: req.params.parentId})
-	.sort({createdAt: -1}).limit(30);
+	var parents = await Item.find({parentId: req.params.parentId});
   	res.send(parents);
 
 });
