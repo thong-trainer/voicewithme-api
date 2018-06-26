@@ -167,10 +167,10 @@ app.post('/api/speech-to-text', function(req, res, next){
 			const filename = req.file.path;
 			const encoding = 'LINEAR16';
 
-			var sampleRateHertz = 44100;
-			if(platform == 'Android'){
-				sampleRateHertz = 48000;
-			}
+			var sampleRateHertz = 16000;
+			// if(platform == 'Android'){
+			// 	sampleRateHertz = 48000;
+			// }
 			
 			const languageCode = target;
 
@@ -214,50 +214,7 @@ app.post('/api/speech-to-text', function(req, res, next){
       	}
       }
     });  
-});  
-
-app.post('/api/text-to-speech', function(req, res, next){
-
-    // The target language (eg: en, km, ...)
-    const target = req.query.target;    
-    
-    if (target == undefined) {
-    	res.send("Bad Query");
-    	return;
-    }
-    console.log("Text: "+req.body.translatedText);
-    console.log("Url: "+req.body.translatedSpeechUrl);
-	const text = req.body.translatedText;
-	// const outputFile = 'public/voices/output.mp3';
-	// console.log(req.body.translatedSpeechUrl);	
-	const outputFile = req.body.translatedSpeechUrl;
-
-	const request = {
-	  input: {text: text},
-	  voice: {languageCode: target, ssmlGender: 'FEMALE'},
-	  audioConfig: {audioEncoding: 'MP3'},
-	};
-
-	clientTextToSpeech.synthesizeSpeech(request, (err, response) => {
-	  if (err) {
-	    console.error('ERROR:', err);
-	    return;
-	  }
-
-	  fs.writeFile(outputFile, response.audioContent, 'binary', err => {
-	    if (err) {
-	      console.error('ERROR:', err);
-	      return;
-	    }
-
-	    console.log(`Audio content written to file: ${outputFile}`);
-
-	    res.send(res.body);
-	  });
-	});
-
 });
-
 
 // create new user
 app.post('/api/user', async function(req, res, next){
@@ -330,6 +287,6 @@ app.use(function(err, req, res, next){
 });
 
 // listen for requests
-app.listen(process.env.port || 80, function(){
-  console.log('now listening on port: localhost:80');
+app.listen(process.env.port || 8090, function(){
+  console.log('now listening on port: localhost:8090');
 });
