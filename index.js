@@ -313,6 +313,33 @@ app.post('/api/contact', async function(req, res, next){
   
 }); 
 
+// get contact by id
+app.get('/api/contact/:id', async function(req, res, next){
+  
+  const secret = req.query.secret;
+  console.log(secret);
+  
+  if (secret == undefined) {
+    res.status(500).json({
+      message: "Bad Query",
+      success: false
+    });     
+    return;
+  }  
+  
+  if(secret != "b5ed678f64a4")
+  {
+    res.status(500).json({
+      message: "Secret ID not found!",
+      success: false
+    });    
+    return;
+  }  
+  
+  var contact = await Contact.findById(req.params.id);
+  res.send(contact);
+
+});
 
 // catch 404 errors and forward them to error handling middleware
 app.use(function(req, res, next){
