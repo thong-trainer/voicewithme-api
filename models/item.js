@@ -28,6 +28,7 @@ const ItemSchema = new Schema({
   parentId: {
     type: Schema.Types.ObjectId,
     ref: 'parent',
+    index: true,
     required: [true, 'parentId field is required']
   }
 },{timestamps: true});

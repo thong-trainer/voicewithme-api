@@ -10,6 +10,7 @@ const ParentSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'user',
+    index: true,
     required: [true, 'userId field is required']
   }
 },{timestamps: true});

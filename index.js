@@ -22,6 +22,7 @@ const User = require('./models/user');
 const Parent = require('./models/parent');
 const Item = require('./models/item');
 const Feedback = require('./models/feedback');
+const Contact = require('./models/contact');
 
 // create file or folder
 const fs = require('fs');
@@ -109,7 +110,11 @@ app.post('/api/translation', function(req, res, next){
     const target = req.query.target;
     console.log(target);
     if (target == undefined) {
-    	res.send("Bad Query");
+      res.status(500).json({
+        message: "Bad Query",
+        success: false
+      });  
+      
     	return;
     }
 
@@ -146,7 +151,10 @@ app.post('/api/speech-to-text', function(req, res, next){
     const platform = req.query.platform;
     
     if (target == undefined || platform == undefined) {
-    	res.send("Bad Query");
+      res.status(500).json({
+        message: "Bad Query",
+        success: false
+      });  
     	return;
     }
 
@@ -269,6 +277,41 @@ app.post('/api/feedback', async function(req, res, next){
 	var result = await feedback.save();
   	res.send(result);	
 });	
+
+// create new contact
+app.post('/api/contact', async function(req, res, next){
+
+  console.log("/api/contact runing...");
+  const secret = req.query.secret;
+  console.log(secret);
+  
+  if (secret == undefined) {
+    res.status(500).json({
+      message: "Bad Query",
+      success: false
+    });     
+    return;
+  }  
+  
+  if(secret != "b5ed678f64a4")
+  {
+    res.status(500).json({
+      message: "Secret ID not found!",
+      success: false
+    });    
+    return;
+  }
+  
+  try {
+    var contact = Contact(req.body);
+    var result = await contact.save();
+    res.send(result);
+
+  } catch(err){
+    res.status(500).json(err);
+  }
+  
+}); 
 
 
 // catch 404 errors and forward them to error handling middleware
