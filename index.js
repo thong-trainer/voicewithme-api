@@ -313,6 +313,34 @@ app.post('/api/contact', async function(req, res, next){
   
 }); 
 
+// get contacts
+app.get('/api/contact/all', async function(req, res, next){
+  
+  const secret = req.query.secret;
+  console.log(secret);
+  
+  if (secret == undefined) {
+    res.status(500).json({
+      message: "Bad Query",
+      success: false
+    });     
+    return;
+  }  
+  
+  if(secret != "b5ed678f64a4")
+  {
+    res.status(500).json({
+      message: "Secret ID not found!",
+      success: false
+    });    
+    return;
+  }  
+  
+  var contact = await Contact.find().sort({createdAt: -1}).limit(30);;
+  res.send(contact);
+
+});
+
 // get contact by id
 app.get('/api/contact/:id', async function(req, res, next){
   
