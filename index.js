@@ -324,9 +324,12 @@ app.post('/api/contact', async function(req, res, next){
   }
   
   try {
-    var contact = Contact(req.body);
-    var result = await contact.save();
-    res.send(result);
+    console.log("=======");
+    console.log(req.body);
+    console.log("=======");
+    // var contact = Contact(req.body);
+    // var result = await contact.save();
+    res.send(req.body);
 
   } catch(err){
     res.status(500).json(err);
