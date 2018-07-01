@@ -28,6 +28,10 @@ app.use(function (req, res, next) {
     next();
 });
 const bodyParser = require('body-parser');
+// configure the app to use bodyParser()
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
 
 // database
