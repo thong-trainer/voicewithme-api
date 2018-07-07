@@ -147,7 +147,7 @@ app.post('/api/translation', function(req, res, next){
 
     var text = req.body.inputText;
     console.log("MY TEXT:"+text);
-    
+
     res.send({
       "inputText": text,
       "translatedText": "សូមទោស កម្មវិធីមិនដំណើរការក្នុង 24 ម៉ោង",
@@ -430,6 +430,6 @@ app.use(function(err, req, res, next){
 });
 
 // listen for requests
-app.listen(process.env.port || 8090, function(){
-  console.log('now listening on port: localhost:8090');
+app.listen(process.env.port || 80, function(){
+  console.log('now listening on port: localhost:80');
 });
