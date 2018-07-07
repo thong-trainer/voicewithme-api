@@ -147,6 +147,14 @@ app.post('/api/translation', function(req, res, next){
 
     var text = req.body.inputText;
     console.log("MY TEXT:"+text);
+    
+    res.send({
+      "inputText": text,
+      "translatedText": "សូមទោស កម្មវិធីមិនដំណើរការក្នុង 24 ម៉ោង",
+      "targetTranslation": req.body.targetTranslation,
+      "inputSpeechUrl": req.body.inputSpeechUrl
+    });    
+    return;    
 	// Translates some text into Russian
 	translate
 	  .translate(text, target)
@@ -182,6 +190,15 @@ app.post('/api/speech-to-text', function(req, res, next){
       });  
     	return;
     }
+
+    res.send({
+      "inputText": "Sorry, app is not working in 24h",
+      "translatedText": null,
+      "targetTranslation": target,
+      "inputSpeechUrl": "req.file.path"
+    });
+
+    return;
 
     upload(req, res, function(err) {
       console.log(req.file);
