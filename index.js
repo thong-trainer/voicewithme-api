@@ -27,6 +27,18 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next();
 });
+
+// send email
+const nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'kamthong.developer@gmail.com',
+    pass: 'Th0ngDEV'
+  }
+});
+
+
 const bodyParser = require('body-parser');
 // configure the app to use bodyParser()
 app.use(bodyParser.urlencoded({
@@ -328,12 +340,26 @@ app.post('/api/contact', async function(req, res, next){
   }
   
   try {
-    console.log("=======");
+
     console.log(req.body);
-    console.log("=======");
-    // var contact = Contact(req.body);
-    // var result = await contact.save();
-    res.send(req.body);
+    var contact = Contact(req.body);
+    var result = await contact.save();
+    res.send(result);
+
+    var mailOptions = {
+      from: 'kamthong.developer@gmail.com',
+      to: 'thong.education@gmail.com',
+      subject: 'Sending Email using Node.js',
+      text: 'That was easy!'
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
 
   } catch(err){
     res.status(500).json(err);
